@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>LISTENING SKILLS</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="style.css">
+    <script>
+        var bleep = new Audio();
+        bleep.src = "click1.mp3";
+
+
+        function sound() {
+            bleep.play();
+        }
+    </script>
+
+</head>
+
+<body>
+    <!-- <button id="setting-btn" class="setting-btn">
+      <i class="fas fa-cog"></i> -->
+    <!-- </button> -->
+    <div id="setting" class="setting">
+        <!-- <form action="" id="setting-form">
+            <div class="">
+                <label for="difficulty">Select Your Mode : ></label>
+                <select name="" id="difficulty">
+            <option value="easy">easy</option>
+            <option value="medium">medium</option>
+            <option value="hard">hard</option>
+          </select>
+            </div>
+        </form> -->
+    </div>
+
+    <div class="container">
+        <h2>TEST LISTENING SKILLS</h2>
+        <audio id="my-audio" controls autoplay>
+          <source src="" type="audio/mpeg">
+       </audio><br> Identify the Verb form and tense<br>
+        <input type="text" id="text" autocomplete="off" placeholder="please type the verb here" onmousedown="bleep.play()" onkeypress="sound()" />
+        <input type="text" id="tense" autocomplete="off" placeholder="please type the tense here" onmousedown="bleep.play()" onkeypress="sound()" />
+        <p id="try"></p>
+        <!-- <p class="time-container">⏲️time left : <span id="time">10s</span></p> -->
+        <p id="score-container" class="score-container">
+            💥score: <span id="score">0</span>
+        </p>
+        <div id="end-game-container" class="end-game-container"></div>
+    </div>
+    <script>
+        const text = document.getElementById("text");
+        const tensetext = document.getElementById("tense");
+        const scoreEl = document.getElementById("score");
+        const endgameEl = document.getElementById("end-game-container");
+        const words = ["a boy came running towards me", "she cooks for him everyday", "she was promoted", "there were two cakes", "we will never agree"];
+        const verb = ["came", "cooks", "promoted", "were", "will"];
+        const tense = ["past", "present", "past", "present", "future"];
+        let randomWord;
+        let rnd = getRandomWord();
+        let score = 0;
+
+        text.focus();
+
+
+        function getRandomWord() {
+            return Math.floor(Math.random() * words.length);
+        }
+
+        function addWordToDOM() {
+            rnd = getRandomWord();
+            sourc = words[rnd] + ".mp3";
+            document.getElementById("my-audio").setAttribute('src', sourc);
+        }
+
+        function updateScore() {
+            score++;
+            scoreEl.innerHTML = score;
+            if (score == 5) {
+                gameOver();
+            }
+        }
+
+        function gameOver() {
+            endgameEl.innerHTML = `
+                <h1> GREAT EFFORT!</h1>
+                <p>Your final score is ${score}</p>
+                <button onclick="location.reload()" >Restart</button>
+                <button onclick="https://englishbolega.com/games" >PLAY MORE</button>`;
+            endgameEl.style.display = "flex";
+        }
+
+        tensetext.addEventListener("input", (e) => {
+            const insetedTense = e.target.value;
+            const insetedVerb = text.value;
+            if (insetedVerb == verb[rnd] && insetedTense == tense[rnd]) {
+                addWordToDOM();
+                updateScore();
+
+                e.target.value = "";
+                text.value = "";
+            }
+        });
+        addWordToDOM();
+    </script>
+</body>
+
+</html>
